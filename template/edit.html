@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container mt-4 mx-auto">
+    <div class="jumbotron">
+        <h1 class="display-4">Edit Video Game</h1>
+    </div>
+    <div id="errorFeedback" class="alert alert-danger mt-3" style="display: none;"></div>
+    <div id="successFeedback" class="alert alert-success mt-3" style="display: none;">Changes saved successfully.
+        <a href="{{ url_for('game_details', game_id=game.id) }}" class="btn btn-link">View Item</a>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <form id="editDataForm">
+                <!-- Input fields for editing a video game -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ game.title }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="media_link" class="form-label">Media Link:</label>
+                    <input type="text" class="form-control" id="media_link" name="media_link"
+                        value="{{ game.media_link }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="4"
+                        required>{{ game.description }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="year_released" class="form-label">Year Released:</label>
+                    <input type="number" class="form-control" id="year_released" name="year_released"
+                        value="{{ game.year_released }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="features" class="form-label">Features:</label>
+                    <input type="text" class="form-control" id="features" name="features"
+                        value="{{ game.features|join(', ') }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image URL:</label>
+                    <input type="text" class="form-control" id="image" name="image" value="{{ game.image }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a class="btn btn-secondary" href="{{ url_for('game_details', game_id=game.id) }}"
+                    id="discardChangesBtn">Discard Changes</a>
+            </form>
+        </div>
+    </div>
+
+    
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Submit form using Ajax (similar to the add_data.html script)
+        $('#editDataForm').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/edit/{{ game.id }}',  // Adjust the URL as needed
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Show success feedback and "View Item" link
+                        $('#successFeedback').show();
+                    } else {
+                        // Show error feedback
+                        $('#errorFeedback').text(response.error);
+                        $('#errorFeedback').show();
+                    }
+                }
+            });
+        });
+
+        // Handle "Discard Changes" button click
+        $('#discardChangesBtn').click(function (e) {
+            e.preventDefault();
+            var confirmed = confirm("Are you sure you want to discard changes?");
+            if (confirmed) {
+                // User is sure, navigate back to the view/<id> page
+                window.location.href = "{{ url_for('game_details', game_id=game.id) }}";
+            }
+            // If not confirmed, let them keep editing
+        });
+    });
+</script>
+
+{% endblock %}
