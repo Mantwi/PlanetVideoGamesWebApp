@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Add New Video Game</h1>
+</div>
+
+<div class="container">
+    <div id="errorFeedback" class="alert alert-danger mt-3" style="display: none;"></div>
+    <div id="successFeedback" class="alert alert-success mt-3" style="display: none;">New item successfully created.
+        <button id="seeItHere" class="btn btn-link">See it here</button>
+    </div>
+
+    <div class="row justify-content-center">
+        <form id="addDataForm" class="col-md-6">
+            <!-- Input fields for adding a new video game -->
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="media_link">Media Link:</label>
+                <input type="text" class="form-control" id="media_link" name="media_link" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="8" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="year_released">Year Released:</label>
+                <input type="year" class="form-control" id="year_released" name="year_released" required>
+            </div>
+
+            <div class="form-group">
+                <label for="features">Features:</label>
+                <input type="text" class="form-control" id="features" name="features" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image URL:</label>
+                <input type="text" class="form-control" id="image" name="image" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Submit form using Ajax
+        $('#addDataForm').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/submit_data',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        // Clear input fields and focus on the first text box
+                        $('#addDataForm')[0].reset();
+                        $('#title').focus();
+
+                        // Show success feedback and "See it here" link
+                        $('#successFeedback').show();
+                        $('#seeItHere').attr('href', response.view_url);
+                    } else {
+                        // Show error feedback
+                        $('#errorFeedback').text(response.error);
+                        $('#errorFeedback').show();
+                    }
+                }
+            });
+        });
+
+        // Handle "See it here" button click
+        $('#seeItHere').click(function (e) {
+            e.preventDefault();
+
+            // Navigate to the URL for viewing the new item
+            window.location.href = $(this).attr('href');
+        });
+    });
+
+</script>
+
+{% endblock %}
