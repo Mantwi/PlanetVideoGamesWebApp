@@ -39,7 +39,9 @@ Planet Video Games is a Flask-based web application that allows users to explore
    git clone https://github.com/Mantwi/PlanetVideoGamesWebApp.git
    cd PlanetVideoGamesWebApp
 2. Install the required packages:
+   ```bash
    pip install -r requirements.txt
-3. Run the application:
+4. Run the application:
+   ```bash
    python server.py
-4. Open http://127.0.0.1:5000/ in your web browser.
+6. Open http://127.0.0.1:5000/ in your web browser.
