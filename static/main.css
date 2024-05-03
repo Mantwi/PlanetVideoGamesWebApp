@@ -1,0 +1,47 @@
+body {
+  background-color: var(--light-grey); 
+}
+
+.form-control {
+  height: 38px;
+  font-size: 16px;
+}
+
+.btn-outline-success {
+  background-color: var(--base-color);
+  color: white;
+  border-color: var(--base-color);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+#popular-games li {
+  background-color: var(--light-grey);
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popular-games-heading {
+  font-size: 24px;
+  color: var(--base-color);
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+:root {
+  --base-color: #0044cc;
+  --accent-color: #0033aa;
+  --light-grey: #f8f9fa;
+  --dark-grey: #333333;
+}
+
+.card-img-top {
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
+}
