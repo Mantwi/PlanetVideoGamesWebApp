@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Search Results for "{{ search_query }}"</h1>
+    <p class="lead">{{ result_count }} result(s) found.</p>
+</div>
+
+<div class="row">
+    {% if result_count > 0 %}
+        {% for game in games %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ game.image }}" class="card-img-top" alt="{{game.title}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">{{ game.description[:40] }}...</p>
+                    <a href="{{ url_for('game_details', game_id=game.id ) }}"  class="btn btn-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <div class="col-md-12">
+        <p>No matches found. Try a different search term.</p>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

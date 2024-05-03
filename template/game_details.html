@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">{{ game.title }}</h1>
+        <p class="lead"><strong>Release Year:</strong> {{ game.year_released }}</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text"><strong>Description:</strong> {{ game.description }}</p>
+            <p class="card-text"><strong>Features:</strong></p>
+            <ul class="list-group">
+                {% for feature in game.features %}
+                <li class="list-group-item">{{ feature }}</li>
+                {% endfor %}
+            </ul>
+            {% if game.media_link %}
+                {% if "http://" not in game.media_link and "https://" not in game.media_link %}
+                    {% set absolute_media_link = "https://" + game.media_link %}
+                {% else %}
+                    {% set absolute_media_link = game.media_link %}
+                {% endif %}
+                <a href="{{ absolute_media_link }}" target="_blank" class="btn btn-primary mt-3">Official Website</a>
+            {% endif %}
+            <a href="{{ url_for('edit_data', id=game.id) }}" class="btn btn-secondary mt-3">Edit</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
